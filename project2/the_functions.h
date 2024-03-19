@@ -70,8 +70,14 @@ struct tree_node* create_node(unsigned long id);
 struct the_queue* create_queue(void);
 // For displaying all of node IDs
 void in_order_traversal(struct tree_node* node);
-
-
+// For freeing all memory of the BST
+void free_bst(struct tree_node* root);
+// For freeing memory of all the queues
+void free_queue(struct the_queue* queue);
+// For finding a node
+struct tree_node* find_node(struct tree_node* node, unsigned long id);
+// Adds message to end of queue
+void enqueue(struct the_queue* queue, unsigned char* data);
 
 
 

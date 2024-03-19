@@ -129,6 +129,111 @@ void in_order_traversal(struct tree_node* node){
         // Right subtree
         in_order_traversal(node->right);
     }
+    
+}   
+    
+    
+    
+// For freeing all memory of the BST
+void free_bst(struct tree_node* root){
+    // If tree is not empty
+    if(root != NULL){
+        // Free left subtree
+        free_bst(root->left);
+        // Free right subtree
+        free_bst(root->right);
+     
+        // Free queue in current node
+        free_queue(root->queue);
+     
+        // Free current node
+        kfree(root);
+    }
+
 }
+
+
+
+
+
+// For freeing memory of all the queues
+void free_queue(struct the_queue* queue){
+    // If queue is not empty
+    if(queue != NULL){
+        // Get head of queue
+        struct queue_node* curr = queue->front;
+        // For storing node to be deleted
+        struct queue_node* temp;
+     
+        // Free each node in the queue
+        while(curr != NULL){
+            // Stash node to be deleted
+            temp = curr;
+            // Make the next node the new current
+            curr = curr->next;
+            // Free the node
+            //free(temp->data);
+            kfree(temp);
+        }    
+    }
+   
+    // Free the queue structure
+    kfree(queue);
+}  
+
+
+
+
+
+// For finding a node
+struct tree_node* find_node(struct tree_node* node, unsigned long id){
+   // If we reached the end of the BST or found the node we are looking for
+   if(node == NULL || node->id == id){
+       return node;
+   }
+   // If ID is smaller than ID at current node, go left
+   if(id < node->id){
+       return find_node(node->left, id);
+   // If ID is larger than ID at current node, go right
+   }else{
+       return find_node(node->right, id);
+   }
+   
+}
+
+
+
+
+
+
+
+// Adds message to end of queue
+void enqueue(struct the_queue* queue, unsigned char* data){
+    // Allocates memory for a new node
+    struct queue_node* new_node = kmalloc(sizeof(struct queue_node), GFP_KERNEL);
+    
+    if(new_node == NULL){
+        printk(KERN_ERR "Failed to allocate memory for new node\n");
+        return;
+    }
+   
+    // Stores message in node
+    new_node->data = data;
+    // Is last in queue
+    new_node->next = NULL;
+   
+    // If queue is empty, node is front and rear
+    if(queue->rear == NULL){
+        queue->front = new_node;
+        queue->rear = new_node;
+    // If queue is not empty
+    }else{
+        // Adds node to end of queue
+        queue->rear->next = new_node;
+        // Identifies node as new rear
+        queue->rear = new_node;
+    }
+}
+
 
 
