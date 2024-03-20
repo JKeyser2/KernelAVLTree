@@ -212,6 +212,7 @@ void enqueue(struct the_queue* queue, unsigned char* data){
     // Allocates memory for a new node
     struct queue_node* new_node = kmalloc(sizeof(struct queue_node), GFP_KERNEL);
     
+    
     if(new_node == NULL){
         printk(KERN_ERR "Failed to allocate memory for new node\n");
         return;
@@ -221,6 +222,7 @@ void enqueue(struct the_queue* queue, unsigned char* data){
     new_node->data = data;
     // Is last in queue
     new_node->next = NULL;
+    
    
     // If queue is empty, node is front and rear
     if(queue->rear == NULL){

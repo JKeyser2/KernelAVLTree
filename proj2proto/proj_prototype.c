@@ -143,6 +143,12 @@ int main (int argc, char **argv){
     
     mailbox_shutdown();
     
+    mailbox_init();
+    
+    printf("\n\n");
+    
+    in_order_traversal(root);
+    
 }
 
 
@@ -545,6 +551,8 @@ long mailbox_init(void){
 long mailbox_shutdown(void){
     
     free_bst(root);
+    
+    root = NULL;
     
     return 0;
 

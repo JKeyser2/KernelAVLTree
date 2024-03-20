@@ -11,8 +11,40 @@ SYSCALL_DEFINE3(mailbox_send, unsigned long, id, unsigned char __user *, msg, lo
    
     // If the node does exist
     if(node != NULL){
-        enqueue(node->queue, msg);
+    	// Validate user space pointer
+    	if(!access_ok(msg,len)){
+    	    printk(KERN_INFO "Invalid user space pointer\n");
+    	    return -EFAULT;
+    	}
+    	
+    	
+    	// Allocate kernel space buffer for message
+    	unsigned char* kernel_msg = kmalloc(len + 1, GFP_KERNEL);
+    	// If memory allocation failed
+    	if(!kernel_msg){
+    	    printk(KERN_ERR "Failed to allocate memory for the message\n");
+    	    return -ENOMEM;
+    	}
+    
+    
+    	// Copy message from user space to kernel space
+    	if(copy_from_user(kernel_msg, msg, len)){
+    	    printk(KERN_ERR "Failed to copy message from user space\n");
+    	    kfree(kernel_msg);
+    	    return -EFAULT;
+    	}
+    	
+    	
+    	// Null-terminate the string
+    	kernel_msg[len] = '\0';
+    	
+    	
+    	
+    
+        enqueue(node->queue, kernel_msg);
         printk(KERN_INFO "Successfully added messsage to end of queue\n");
+        
+        //kfree(kernel_msg);
         return 0;
     // If the node does not exist
     }else{

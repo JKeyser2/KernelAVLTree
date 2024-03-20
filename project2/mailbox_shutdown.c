@@ -7,6 +7,8 @@
 
 SYSCALL_DEFINE0(mailbox_shutdown) {
     free_bst(root);
+    
+    root = NULL;
    
     return 0;
 }
