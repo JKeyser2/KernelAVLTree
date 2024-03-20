@@ -417,5 +417,7 @@
 549	common	mailbox_shutdown	sys_mailbox_shutdown
 550	common	mailbox_create	sys_mailbox_create
 551	common	mailbox_send	sys_mailbox_send
+555	common	message_count	sys_message_count
+556	common	message_length	sys_message_length
 # This is the end of the legacy x32 range.  Numbers 548 and above are
 # not special and are not to be used for x32-specific syscalls.

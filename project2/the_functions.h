@@ -78,6 +78,10 @@ void free_queue(struct the_queue* queue);
 struct tree_node* find_node(struct tree_node* node, unsigned long id);
 // Adds message to end of queue
 void enqueue(struct the_queue* queue, unsigned char* data);
+// Gets how many messages are in the queue
+long get_amount_messages(struct the_queue* queue);
+// Gets length of oldest message in the queue
+long get_length_oldest(struct the_queue* queue);
 
 
 

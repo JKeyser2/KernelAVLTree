@@ -239,3 +239,53 @@ void enqueue(struct the_queue* queue, unsigned char* data){
 
 
 
+
+
+// Gets how many messages are in the queue
+long get_amount_messages(struct the_queue* queue){
+    // If queue is empty
+    if(queue->front == NULL){
+        return 0;
+    }
+   
+    // For storing how many messages are in the queue
+    long amount_messages = 0;
+   
+    // Store front of the queue
+    struct queue_node* temp = queue->front;
+   
+    // Loops through all messages, counting them
+    while(temp != NULL){
+        amount_messages++;
+        temp = temp->next;
+    }
+   
+   
+    return amount_messages;
+
+
+}
+
+
+
+
+
+// Gets length of oldest message in the queue
+long get_length_oldest(struct the_queue* queue){
+    // If queue is empty
+    if(queue->front == NULL){
+        return -1;
+    }
+   
+    // Store front of queue temporarily
+    struct queue_node* temp = queue->front;
+   
+    long message_length =  strlen(queue->front->data);
+   
+    return message_length;
+}
+
+
+
+
+
