@@ -141,13 +141,18 @@ int main (int argc, char **argv){
     
     in_order_traversal(root);
     
+    mailbox_destroy(5);
+    
+    in_order_traversal(root);
+    
+    
     mailbox_shutdown();
     
-    mailbox_init();
+    //mailbox_init();
     
     printf("\n\n");
     
-    in_order_traversal(root);
+    //in_order_traversal(root);
     
 }
 
@@ -448,6 +453,18 @@ struct tree_node* delete_node(struct tree_node* node, unsigned long id){
         return node;
     }
     
+    // If node exists
+    if(node != NULL){
+        // If the node is the root, and doesn't have any children
+        if(node->id == root->id && node->left == NULL && node->right == NULL){
+            // Set the root to NULL
+            free_queue(node->queue);
+            free(node);
+            root = NULL;
+            return root;
+        }
+    }
+    
     // Search for node to be deleted
     // If ID is smaller than ID of current node, go left
     if(id < node->id){
@@ -461,17 +478,15 @@ struct tree_node* delete_node(struct tree_node* node, unsigned long id){
     // If 1 of children is empty
     }
     if(node->left == NULL){
+    	//printf("no left child");
         struct tree_node* temp = node->right;
-        if(node->queue->front != NULL){
-            free_queue(node->queue);
-        }
+        free_queue(node->queue);
         free(node);
         return temp;
     }else if(node->right == NULL){
+        //printf("no right child");
         struct tree_node* temp = node->left;
-        //if(node->queue->front != NULL){
-            //free_queue(node->queue);
-        //}
+        free_queue(node->queue);
         free(node);
         return temp;
     // If both children exist
@@ -492,12 +507,13 @@ struct tree_node* delete_node(struct tree_node* node, unsigned long id){
         }else{
             succParent->right = succ->right;
         }
-        printf("woah");
+        //printf("woah");
         node->id = succ->id;
         node->queue = succ->queue;
         //if(succ->queue->front != NULL){
             //free_queue(succ->queue);
         //}
+        free_queue(succ->queue);
         free(succ);
         return node;
     }
