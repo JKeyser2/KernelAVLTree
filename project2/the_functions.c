@@ -289,3 +289,61 @@ long get_length_oldest(struct the_queue* queue){
 
 
 
+// Deletes oldest message in the queue
+long delete_oldest(struct the_queue* queue){
+    // If queue is empty
+    if(queue->front == NULL){
+        return -1;
+    }
+   
+    // Store front of queue temporarily
+    struct queue_node* temp = queue->front;
+   
+    // Make the second message the new front
+    queue->front = queue->front->next;
+   
+    // Free the first node
+    //free(temp->data);
+    kfree(temp);
+   
+    // If the queue is empty, gotta make rear NULL also
+    if(queue->front == NULL){
+        queue->rear = NULL;
+    }
+   
+    return 0;
+}
+
+
+
+
+
+// Retrieves message from front of queue
+unsigned char* dequeue(struct the_queue* queue){
+    // If queue is empty
+    if(queue->front == NULL){
+        return NULL;
+    }
+   
+    // Store front of queue temporarily
+    struct queue_node* temp = queue->front;
+    // Retrieve data from front of queue
+    unsigned char* data = temp->data;
+   
+    // Make the second message the new front
+    queue->front = queue->front->next;
+   
+    // Free the first node
+    //free(temp->data);
+    kfree(temp);
+   
+    // If the queue is empty, gotta make rear NULL also
+    if(queue->front == NULL){
+        queue->rear = NULL;
+    }
+   
+    // Return the message
+    return data;
+}
+
+

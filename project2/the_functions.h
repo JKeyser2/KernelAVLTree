@@ -82,6 +82,10 @@ void enqueue(struct the_queue* queue, unsigned char* data);
 long get_amount_messages(struct the_queue* queue);
 // Gets length of oldest message in the queue
 long get_length_oldest(struct the_queue* queue);
+// Deletes oldest message in the queue
+long delete_oldest(struct the_queue* queue);
+// Retrieves message from front of queue
+unsigned char* dequeue(struct the_queue* queue);
 
 
 
