@@ -9,6 +9,7 @@
 #include <linux/syscalls.h>
 #include <linux/slab.h>
 #include <linux/random.h>
+#include <linux/rwlock.h>
 
 
 
@@ -56,7 +57,8 @@ struct tree_node{
 
 // Global variable for root of BST
 extern struct tree_node* root;
-
+// Global variable for the read-write lock
+extern rwlock_t mailbox_lock;
 
 
 
@@ -86,6 +88,8 @@ long get_length_oldest(struct the_queue* queue);
 long delete_oldest(struct the_queue* queue);
 // Retrieves message from front of queue
 unsigned char* dequeue(struct the_queue* queue);
+// Deletes a node from BST 
+struct tree_node* delete_node(struct tree_node* node, unsigned long id);
 
 
 

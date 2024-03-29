@@ -6,6 +6,7 @@
 #include <linux/errno.h>
 
 SYSCALL_DEFINE3(mailbox_send, unsigned long, id, unsigned char __user *, msg, long, len) {
+    write_lock(&mailbox_lock);
     // Checks if the node already exists
     struct tree_node* node = find_node(root, id);
    
@@ -14,6 +15,7 @@ SYSCALL_DEFINE3(mailbox_send, unsigned long, id, unsigned char __user *, msg, lo
     	// Validate user space pointer
     	if(!access_ok(msg,len)){
     	    printk(KERN_INFO "Invalid user space pointer\n");
+    	    write_unlock(&mailbox_lock);
     	    return -EFAULT;
     	}
     	
@@ -23,6 +25,7 @@ SYSCALL_DEFINE3(mailbox_send, unsigned long, id, unsigned char __user *, msg, lo
     	// If memory allocation failed
     	if(!kernel_msg){
     	    printk(KERN_ERR "Failed to allocate memory for the message\n");
+    	    write_unlock(&mailbox_lock);
     	    return -ENOMEM;
     	}
     
@@ -31,6 +34,7 @@ SYSCALL_DEFINE3(mailbox_send, unsigned long, id, unsigned char __user *, msg, lo
     	if(copy_from_user(kernel_msg, msg, len)){
     	    printk(KERN_ERR "Failed to copy message from user space\n");
     	    kfree(kernel_msg);
+    	    write_unlock(&mailbox_lock);
     	    return -EFAULT;
     	}
     	
@@ -45,10 +49,12 @@ SYSCALL_DEFINE3(mailbox_send, unsigned long, id, unsigned char __user *, msg, lo
         printk(KERN_INFO "Successfully added messsage to end of queue\n");
         
         //kfree(kernel_msg);
+        write_unlock(&mailbox_lock);
         return 0;
     // If the node does not exist
     }else{
         printk(KERN_INFO "Node does not exist\n");
+        write_unlock(&mailbox_lock);
         return -1;
     }
 

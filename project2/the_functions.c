@@ -13,7 +13,8 @@
 
 // Global variable for root of BST
 struct tree_node* root = NULL;
-
+// Global variable for the read-write lock
+rwlock_t mailbox_lock;
 
 
 
@@ -343,7 +344,85 @@ unsigned char* dequeue(struct the_queue* queue){
     }
    
     // Return the message
-    return data;
+    return data;   
 }
 
+
+
+
+
+// Deletes a node from BST 
+struct tree_node* delete_node(struct tree_node* node, unsigned long id){
+    // If BST is empty, nothing to delete
+    if(node == NULL){
+        return node;
+    }
+    
+    // If node exists
+    if(node != NULL){
+        // If the node is the root, and doesn't have any children
+        if(node->id == root->id && node->left == NULL && node->right == NULL){
+            // Set the root to NULL
+            free_queue(node->queue);
+            kfree(node);
+            root = NULL;
+            return root;
+        }
+    }
+    
+    // Search for node to be deleted
+    // If ID is smaller than ID of current node, go left
+    if(id < node->id){
+        node->left = delete_node(node->left, id);
+        return node;
+    // If ID is larger than ID of current node, go right
+    }else if(id > node->id){
+        node->right = delete_node(node->right, id);
+        return node;
+    // If we found the ID
+    // If 1 of children is empty
+    }
+    if(node->left == NULL){
+    	//printf("no left child");
+        struct tree_node* temp = node->right;
+        free_queue(node->queue);
+        kfree(node);
+        return temp;
+    }else if(node->right == NULL){
+        //printf("no right child");
+        struct tree_node* temp = node->left;
+        free_queue(node->queue);
+        kfree(node);
+        return temp;
+    // If both children exist
+    }else{
+        struct tree_node* succParent = node;
+        
+        // Find successor
+        struct tree_node* succ = node->right;
+        
+        while(succ->left != NULL){
+            succParent = succ;
+            succ = succ->left;
+        }
+        
+        // Delete successor
+        if(succParent != node){
+            succParent->left = succ->right;
+        }else{
+            succParent->right = succ->right;
+        }
+        //printf("woah");
+        node->id = succ->id;
+        node->queue = succ->queue;
+        //if(succ->queue->front != NULL){
+            //free_queue(succ->queue);
+        //}
+        free_queue(succ->queue);
+        kfree(succ);
+        return node;
+    }
+        
+        
+}
 

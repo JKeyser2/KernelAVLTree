@@ -6,6 +6,11 @@
 #include <linux/errno.h>
 
 SYSCALL_DEFINE0(mailbox_init) {
+    // Initialize the spinlock
+    rwlock_init(&mailbox_lock);
+    
+    write_lock(&mailbox_lock);
+    
     // Get ID for node
     unsigned long random_number = generate_random_number();
     
@@ -17,13 +22,21 @@ SYSCALL_DEFINE0(mailbox_init) {
     // If memory allocation error
     if(root == NULL){
         printk(KERN_ERR "Error: Root node is NULL\n");
+        write_unlock(&mailbox_lock);
         return -ENOMEM;
     }
     
     printk(KERN_INFO "Random Number Again: %lu\n", root->id);
     
-    in_order_traversal(root);
+    //in_order_traversal(root);
     printk("hello world!\n");
-   
+    
+    
+    
+    
+    
+    
+    
+    write_unlock(&mailbox_lock);
     return 0;
 }

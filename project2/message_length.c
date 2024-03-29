@@ -6,6 +6,7 @@
 #include <linux/errno.h>
 
 SYSCALL_DEFINE1(message_length, unsigned long, id) {
+    read_lock(&mailbox_lock);
     // Checks if node exists
     struct tree_node* node = find_node(root, id);
    
@@ -16,15 +17,18 @@ SYSCALL_DEFINE1(message_length, unsigned long, id) {
         // If queue was empty
         if(message_length == -1){
             printk(KERN_INFO "Queue was empty\n");
+            read_unlock(&mailbox_lock);
             return -2;
         // If queue wasn't empty
         }else{
             printk(KERN_INFO "Message length: %ld\n", message_length);
+            read_unlock(&mailbox_lock);
             return message_length;
         }
     // If the node does not exist
     }else{
         printk(KERN_INFO "Node does not exist\n");
+        read_unlock(&mailbox_lock);
         return -1;
     }
 }

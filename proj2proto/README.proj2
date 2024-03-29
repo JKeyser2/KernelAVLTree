@@ -1,0 +1,15 @@
+1. What functionalities you've prototyped and the rationale behind selecting these?
+
+I designed the entire project in user space first. This is because kernel space is very similar to user space, but with small changes and additions. Recompiling and installing the new linux image can be time consuming, so I wanted to get a majority of my errors out of the way in user space first. 
+
+2. The challenges you faced during the prototyping phase?
+
+Deleting nodes from the binary tree was difficult for me to do. I also spent a fair bit of time getting rid of memory leaks in the delete node function. 
+
+3. How your prototype's algorithms and structures were adapted for the kernel-space?
+
+The code in both spaces is very similar, so was mostly a lot of copy and pasting from user space to kernel space. Having most of the code already working made it easy to debug when converting strings between user and kernel space in the kernel space version. 
+
+4. Any significant changes and decisions made during the transition from user-space to kernel-space?
+
+No, not really. The transition was suprisingly smooth. 

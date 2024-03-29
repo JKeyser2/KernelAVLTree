@@ -6,9 +6,13 @@
 #include <linux/errno.h>
 
 SYSCALL_DEFINE0(mailbox_shutdown) {
+    write_lock(&mailbox_lock);
+    
     free_bst(root);
     
     root = NULL;
+    
+    write_unlock(&mailbox_lock);
    
     return 0;
 }
