@@ -1,0 +1,14 @@
+CC=gcc
+CFLAGS=-Wall -Wextra
+EXEC=test_file_two
+
+
+all: $(EXEC)
+
+
+$(EXEC): test_file_two.c
+	$(CC) $(CFLAGS) test_file_two.c -o $(EXEC)
+
+
+Clean:
+	rm -f $(EXEC)

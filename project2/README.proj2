@@ -4,6 +4,18 @@
 
 I used the faster ".config" file for my compiling. My syscalls are in the project2 folder. My user space implementation is in proj2proto folder. My tests are in proj2tests folder.
 
+The numbers associated with my syscalls are in a bit of a different order.
+
+Order: 
+#define __NR_mailbox_init 548
+#define __NR_mailbox_shutdown 549
+#define __NR_mailbox_create 550
+#define __NR_mailbox_send 551
+#define __NR_mailbox_delete 552
+#define __NR_mailbox_recv 553
+#define __NR_mailbox_destroy 554
+#define __NR_message_count 555
+#define __NR_message_length 556
 
 
 2. Kernel Modifications
@@ -123,10 +135,4 @@ Order:
 Please state all outside resources used during the project. This would include websites or textbooks used. Also, please include input and output of any LLM (ChatGPT, etc.) used.
 
 GeeksForGeeks
-
-
-
-
-
-
 

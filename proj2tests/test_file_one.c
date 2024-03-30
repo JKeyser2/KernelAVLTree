@@ -74,6 +74,7 @@ void mailbox_shutdown_test(){
     rv = mailbox_create(999999);
     rv = mailbox_shutdown();
     
+    
     if(rv == 0){
         printf("Mailbox shutdown test passed!\n");
     }else{
