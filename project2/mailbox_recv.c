@@ -20,6 +20,15 @@ SYSCALL_DEFINE3(mailbox_recv, unsigned long, id, unsigned char __user *, msg, lo
         //printk(KERN_INFO "msg Length: %zu\n", strlen(msg));
         //printk(KERN_INFO "long len: %ld\n", len);
         
+        
+        // Gets length of message that was retreived
+        size_t message_len = strlen(message_string);
+        
+        // If len is greater than length of message, change len to length of message
+        if(message_len < len){
+            len = message_len;
+        }
+        
         // If there is a message in the queue of the node
         if(message_string != NULL){
             // Copy message from kernel space to user space

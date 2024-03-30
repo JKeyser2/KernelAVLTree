@@ -133,7 +133,7 @@ int main(int argc, char *argv[]) {
                 printf("Message received: ");
                 for(int i = 0; i < len_size; i++){
                     if(user_input_string[i] != '\0'){
-                        printf("%c", user_input_string[i]);
+                       printf("%c", user_input_string[i]);
                     }
                 }
                 printf("\n");
@@ -151,7 +151,7 @@ int main(int argc, char *argv[]) {
                 printf("Message received: ");
                 for(int i = 0; i < len_size; i++){
                     if(user_input_string[i] != '\0'){
-                        printf("%c", user_input_string[i]);
+                       printf("%c", user_input_string[i]);
                     }
                 }
                 printf("\n");
