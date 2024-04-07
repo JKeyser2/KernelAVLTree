@@ -14,6 +14,12 @@ SYSCALL_DEFINE3(mailbox_recv, unsigned long, id, unsigned char __user *, msg, lo
     if(node != NULL){
         unsigned char* message_string = dequeue(node->queue);
         
+        // If the mailbox was empty
+        if(message_string == NULL){
+            printk(KERN_INFO "Mailbox was empty!\n");
+            write_unlock(&mailbox_lock);
+            return -1;
+        }
         //printk(KERN_INFO "Kernel Message: %s\n", message_string);
         //printk(KERN_INFO "Message Length: %zu\n", strlen(message_string));
         //printk(KERN_INFO "msg: %s\n", msg);
@@ -40,7 +46,7 @@ SYSCALL_DEFINE3(mailbox_recv, unsigned long, id, unsigned char __user *, msg, lo
             }
         
             //printk(KERN_INFO "Message (USER-SPACE): %s\n", msg);
-            //printk(KERN_INFO "Message: %s\n", message_string);
+            printk(KERN_INFO "Message received: %s\n", message_string);
             //kfree(message_string);
             write_unlock(&mailbox_lock);
             return strlen(msg);  

@@ -12,6 +12,8 @@ SYSCALL_DEFINE0(mailbox_shutdown) {
     
     root = NULL;
     
+    printk(KERN_INFO "All mailboxes destroyed\n");
+    
     write_unlock(&mailbox_lock);
    
     return 0;

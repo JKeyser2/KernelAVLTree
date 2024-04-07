@@ -33,4 +33,3 @@ SYSCALL_DEFINE1(mailbox_delete, unsigned long, id) {
     }
 
 }
-

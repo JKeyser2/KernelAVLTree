@@ -46,7 +46,7 @@ SYSCALL_DEFINE3(mailbox_send, unsigned long, id, unsigned char __user *, msg, lo
     	
     
         enqueue(node->queue, kernel_msg);
-        printk(KERN_INFO "Successfully added messsage to end of queue\n");
+        printk(KERN_INFO "Successfully added messsage to end of queue: %s\n", kernel_msg);
         
         //kfree(kernel_msg);
         write_unlock(&mailbox_lock);

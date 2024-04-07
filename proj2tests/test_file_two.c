@@ -11,10 +11,10 @@
 #define __NR_mailbox_init 548
 #define __NR_mailbox_shutdown 549
 #define __NR_mailbox_create 550
-#define __NR_mailbox_send 551
-#define __NR_mailbox_delete 552
+#define __NR_mailbox_destroy 551
+#define __NR_mailbox_send 552
 #define __NR_mailbox_recv 553
-#define __NR_mailbox_destroy 554
+#define __NR_mailbox_delete 554
 #define __NR_message_count 555
 #define __NR_message_length 556
 
@@ -61,13 +61,16 @@ int main(int argc, char *argv[]) {
     bool end_loop = false;
     int user_input = -1;
     int user_input2 = -2;
-    unsigned char *user_input_string = malloc(100 * sizeof(unsigned char)); 
+    unsigned char *user_input_string = malloc(100 * sizeof(unsigned char));
+    unsigned char *user_input_string2 = malloc(100 * sizeof(unsigned char)); 
     //unsigned char user_input_string[100];
     long len_size = -1;
+    int returnCodeMailboxReceive = 0;
     
     
     while(end_loop == false){
         strncpy((char *) user_input_string, "", 1);
+        strncpy((char *) user_input_string2, "", 1);
         
         printf("These are the options. Pick a number 1 through 10\n");
         printf("1. mailbox_init\n");
@@ -101,39 +104,41 @@ int main(int argc, char *argv[]) {
             mailbox_destroy(user_input2);
       }else if(user_input == 5){
             printf("You selected mailbox_send. Give me a number for the ID ");
-            scanf("%d", &user_input2);
+            scanf("%d", &user_input2);    
             user_input2 = (unsigned long)user_input2;
-            printf("You selected mailbox_send. Give me a string, or type empty, or type null ");
-            scanf("%s", user_input_string);
-            if (strcmp((char *) user_input_string, "empty") == 0){
+            printf("You selected mailbox_send. Give me a string, or 'e' for empty, or type null ");
+            scanf(" %[^\n]", user_input_string2);
+            if (strcmp((char *) user_input_string2, "e") == 0){
                 printf("You selected mailbox_send. Give me a value for length ");
                 scanf("%ld", &len_size);
                 mailbox_send(user_input2, (unsigned char *)"", len_size);
             }
-            else if (strcmp((char *) user_input_string, "empty") == 0){
+            else if (strcmp((char *) user_input_string2, "null") == 0){
                 printf("You selected mailbox_send. Give me a value for length ");
                 scanf("%ld", &len_size);
                 mailbox_send(user_input2, NULL, len_size);
             }else{
                 printf("You selected mailbox_send. Give me a value for length ");
                 scanf("%ld", &len_size);
-                mailbox_send(user_input2, user_input_string, len_size);
+                mailbox_send(user_input2, user_input_string2, len_size);
             }
         }else if(user_input == 6){
             printf("You selected mailbox_recv. Give me a number for the ID ");
             scanf("%d", &user_input2);
             user_input2 = (unsigned long)user_input2;
-            printf("You selected mailbox_recv. Give me a string, or type empty, or type null ");
+            printf("You selected mailbox_recv. Give me a string, or 'e' for empty, or type null ");
             scanf("%s", user_input_string);
-            if(strcmp((char *)user_input_string, "empty") == 0){
+            if(strcmp((char *)user_input_string, "e") == 0){
                 strcpy((char *) user_input_string, "\0");
                 printf("You selected mailbox_recv. Give me a value for length ");
                 scanf("%ld", &len_size);
-                mailbox_recv(user_input2, user_input_string, len_size);
+                returnCodeMailboxReceive = mailbox_recv(user_input2, user_input_string, len_size);
                 printf("Message received: ");
-                for(int i = 0; i < len_size; i++){
-                    if(user_input_string[i] != '\0'){
-                       printf("%c", user_input_string[i]);
+                if(returnCodeMailboxReceive > -1){
+                    for(int i = 0; i < len_size; i++){
+                        if(user_input_string[i] != '\0'){
+                           printf("%c", user_input_string[i]);
+                        }
                     }
                 }
                 printf("\n");
@@ -148,10 +153,13 @@ int main(int argc, char *argv[]) {
                 printf("You selected mailbox_recv. Give me a value for length ");
                 scanf("%ld", &len_size);
                 mailbox_recv(user_input2, user_input_string, len_size);
+                returnCodeMailboxReceive = mailbox_recv(user_input2, user_input_string, len_size);
                 printf("Message received: ");
-                for(int i = 0; i < len_size; i++){
-                    if(user_input_string[i] != '\0'){
-                       printf("%c", user_input_string[i]);
+                if(returnCodeMailboxReceive > -1){
+                    for(int i = 0; i < len_size; i++){
+                        if(user_input_string[i] != '\0'){
+                           printf("%c", user_input_string[i]);
+                        }
                     }
                 }
                 printf("\n");
@@ -178,6 +186,7 @@ int main(int argc, char *argv[]) {
     }
     return 0;
 }
+
 
 
 

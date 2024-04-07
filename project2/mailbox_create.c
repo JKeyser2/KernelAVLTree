@@ -15,10 +15,11 @@ SYSCALL_DEFINE1(mailbox_create, unsigned long, id) {
     if(node == NULL){
         // Delete the node
         insert_node(root, id);
-        printk(KERN_INFO "Node inserted\n");
-        printk(KERN_INFO "\n");
-        in_order_traversal(root);
-        printk(KERN_INFO "\n");
+        
+        printk(KERN_INFO "Node inserted with id %lu\n", id);
+        //printk(KERN_INFO "\n");
+        //in_order_traversal(root);
+        //printk(KERN_INFO "\n");
         write_unlock(&mailbox_lock);
         return 0;
     // If the node does exist

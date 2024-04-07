@@ -1384,10 +1384,10 @@ int __sys_setsockopt(int fd, int level, int optname, char __user *optval,
 asmlinkage long sys_mailbox_init(void);
 asmlinkage long sys_mailbox_shutdown(void);
 asmlinkage long sys_mailbox_create(unsigned long id);
-asmlinkage long sys_mailbox_send(unsigned long id, unsigned char __user *msg, long len);
-asmlinkage long sys_mailbox_delete(unsigned long id);
-asmlinkage long sys_mailbox_recv(unsigned long id, unsigned char __user *msg, long len);
 asmlinkage long sys_mailbox_destroy(unsigned long id);
+asmlinkage long sys_mailbox_send(unsigned long id, unsigned char __user *msg, long len);
+asmlinkage long sys_mailbox_recv(unsigned long id, unsigned char __user *msg, long len);
+asmlinkage long sys_mailbox_delete(unsigned long id);
 asmlinkage long sys_message_count(unsigned long id);
 asmlinkage long sys_message_length(unsigned long id);
 #endif
