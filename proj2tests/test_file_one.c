@@ -9,10 +9,10 @@
 #define __NR_mailbox_init 548
 #define __NR_mailbox_shutdown 549
 #define __NR_mailbox_create 550
-#define __NR_mailbox_send 551
-#define __NR_mailbox_delete 552
+#define __NR_mailbox_destroy 551
+#define __NR_mailbox_send 552
 #define __NR_mailbox_recv 553
-#define __NR_mailbox_destroy 554
+#define __NR_mailbox_delete 554
 #define __NR_message_count 555
 #define __NR_message_length 556
 
