@@ -4,6 +4,11 @@
 
 I used the faster ".config" file for my compiling. My syscalls are in the project2 folder. My user space implementation is in proj2proto folder. My tests are in proj2tests folder.
 
+If you get:
+fatal: loose object a331fde934093f450f372ed0635b59d8b7e00f04 (stored in .git/objects/a3/31fde934093f450f372ed0635b59d8b7e00f04) is corrupt
+Fix with:
+find .git/objects/ -size 0 -exec rm -f {} ;
+git fetch origin
 
 
 2. Kernel Modifications

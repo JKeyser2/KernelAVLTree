@@ -8,6 +8,7 @@
 #include <stdlib.h>
 
 
+// Syscalls
 #define __NR_mailbox_init 548
 #define __NR_mailbox_shutdown 549
 #define __NR_mailbox_create 550

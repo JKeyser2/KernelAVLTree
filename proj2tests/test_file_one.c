@@ -183,6 +183,7 @@ void mailbox_send_test_three(){
     rv = mailbox_create(50);
     rv = mailbox_send(50, NULL, strlen("car"));
     
+    
     if(rv == -1){
         printf("Sending NULL to mailbox test passed!\n");
     }else{
@@ -493,7 +494,6 @@ void message_length_test_three(){
 }
 
 int main(int argc, char *argv[]) {
-    printf("cool!");
     
     mailbox_init_test();
     
