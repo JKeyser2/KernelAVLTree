@@ -66,12 +66,13 @@ int main(int argc, char *argv[]) {
     unsigned char *user_input_string2 = malloc(100 * sizeof(unsigned char)); 
     //unsigned char user_input_string[100];
     long len_size = -1;
+    long len_size2 = -1;
     int returnCodeMailboxReceive = 0;
     
     
     while(end_loop == false){
-        strncpy((char *) user_input_string, "", 1);
-        strncpy((char *) user_input_string2, "", 1);
+        memset(user_input_string, 0, 100 * sizeof(unsigned char));
+        memset(user_input_string2, 0, 100 * sizeof(unsigned char));
         
         printf("These are the options. Pick a number 1 through 10\n");
         printf("1. mailbox_init\n");
@@ -110,6 +111,8 @@ int main(int argc, char *argv[]) {
             printf("You selected mailbox_send. Give me a string, or 'e' for empty, or type null ");
             scanf(" %[^\n]", user_input_string2);
             if (strcmp((char *) user_input_string2, "e") == 0){
+                memset(user_input_string2, 0, 100 * sizeof(unsigned char));
+                strcpy(user_input_string2, "");
                 printf("You selected mailbox_send. Give me a value for length ");
                 scanf("%ld", &len_size);
                 mailbox_send(user_input2, (unsigned char *)"", len_size);
@@ -130,13 +133,14 @@ int main(int argc, char *argv[]) {
             printf("You selected mailbox_recv. Give me a string, or 'e' for empty, or type null ");
             scanf("%s", user_input_string);
             if(strcmp((char *)user_input_string, "e") == 0){
-                strcpy((char *) user_input_string, "\0");
+                memset(user_input_string, 0, 100 * sizeof(unsigned char));
+                strcpy(user_input_string, "");
                 printf("You selected mailbox_recv. Give me a value for length ");
-                scanf("%ld", &len_size);
-                returnCodeMailboxReceive = mailbox_recv(user_input2, user_input_string, len_size);
+                scanf("%ld", &len_size2);
+                returnCodeMailboxReceive = mailbox_recv(user_input2, user_input_string, len_size2);
                 printf("Message received: ");
                 if(returnCodeMailboxReceive > -1){
-                    for(int i = 0; i < len_size; i++){
+                    for(int i = 0; i < len_size2; i++){
                         if(user_input_string[i] != '\0'){
                            printf("%c", user_input_string[i]);
                         }
@@ -144,20 +148,21 @@ int main(int argc, char *argv[]) {
                 }
                 printf("\n");
             }
-            else if(strcmp((char *)user_input_string, "null") == 0){
-                strcpy((char *) user_input_string, "");
+            else if(strcmp((char *)user_input_string, "null") == 0){          
                 printf("You selected mailbox_recv. Give me a value for length ");
-                scanf("%ld", &len_size);
-                mailbox_recv(user_input2, NULL, len_size);
+                scanf("%ld", &len_size2);
+                mailbox_recv(user_input2, NULL, len_size2);
                 printf("Message received: ");
             }else{
+                //memset(user_input_string, 0, 100 * sizeof(unsigned char));
+                //strcpy(user_input_string, "");
                 printf("You selected mailbox_recv. Give me a value for length ");
-                scanf("%ld", &len_size);
-                mailbox_recv(user_input2, user_input_string, len_size);
-                returnCodeMailboxReceive = mailbox_recv(user_input2, user_input_string, len_size);
+                scanf("%ld", &len_size2);
+                returnCodeMailboxReceive = mailbox_recv(user_input2, user_input_string, len_size2);
                 printf("Message received: ");
+                //printf("%d", returnCodeMailboxReceive);
                 if(returnCodeMailboxReceive > -1){
-                    for(int i = 0; i < len_size; i++){
+                    for(int i = 0; i < len_size2; i++){
                         if(user_input_string[i] != '\0'){
                            printf("%c", user_input_string[i]);
                         }
