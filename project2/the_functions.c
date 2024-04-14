@@ -175,11 +175,13 @@ void free_queue(struct the_queue* queue){
             // Free the node
             //free(temp->data);
             kfree(temp);
-        }    
+        } 
+        kfree(queue);
+        queue = NULL;   
     }
    
     // Free the queue structure
-    kfree(queue);
+    //kfree(queue);
 }  
 
 
@@ -385,13 +387,13 @@ struct tree_node* delete_node(struct tree_node* node, unsigned long id){
     if(node->left == NULL){
     	//printf("no left child");
         struct tree_node* temp = node->right;
-        free_queue(node->queue);
+        //free_queue(node->queue);
         kfree(node);
         return temp;
     }else if(node->right == NULL){
         //printf("no right child");
         struct tree_node* temp = node->left;
-        free_queue(node->queue);
+        //free_queue(node->queue);
         kfree(node);
         return temp;
     // If both children exist
@@ -418,7 +420,7 @@ struct tree_node* delete_node(struct tree_node* node, unsigned long id){
         //if(succ->queue->front != NULL){
             //free_queue(succ->queue);
         //}
-        free_queue(succ->queue);
+        //free_queue(succ->queue);
         kfree(succ);
         return node;
     }

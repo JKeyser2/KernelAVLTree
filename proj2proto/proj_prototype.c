@@ -107,6 +107,8 @@ long message_length(unsigned long id);
 int main (int argc, char **argv){
     mailbox_init();
     
+    
+    mailbox_shutdown();
 
     mailbox_create(5);
     mailbox_create(5);
@@ -116,7 +118,7 @@ int main (int argc, char **argv){
     
     mailbox_destroy(17);
     mailbox_destroy(18);
-    
+   
     mailbox_send(10, "Hello world", strlen("Hello world"));
     
     mailbox_recv(10, "Message", strlen("Message"));
@@ -148,11 +150,11 @@ int main (int argc, char **argv){
     
     mailbox_shutdown();
     
-    //mailbox_init();
+    mailbox_init();
     
     printf("\n\n");
     
-    //in_order_traversal(root);
+    in_order_traversal(root);
     
 }
 
@@ -382,13 +384,17 @@ void free_bst(struct tree_node* root){
 void free_queue(struct the_queue* queue){
     // If queue is not empty
     if(queue != NULL){
+        //printf("Queue is not NULL\n");
         // Get head of queue
         struct queue_node* curr = queue->front;
         // For storing node to be deleted
         struct queue_node* temp;
         
+        
         // Free each node in the queue
         while(curr != NULL){
+            //printf("Freeing node\n");
+            
             // Stash node to be deleted
             temp = curr;
             // Make the next node the new current
@@ -396,11 +402,15 @@ void free_queue(struct the_queue* queue){
             // Free the node
             //free(temp->data);
             free(temp);
-        }    
+        }
+        free(queue);
+        queue = NULL;
+    }else{
+        printf("Queue is NULL\n");
     }
     
     // Free the queue structure
-    free(queue);
+    //free(queue);
 }
 
 
@@ -480,13 +490,13 @@ struct tree_node* delete_node(struct tree_node* node, unsigned long id){
     if(node->left == NULL){
     	//printf("no left child");
         struct tree_node* temp = node->right;
-        free_queue(node->queue);
+        //free_queue(node->queue);
         free(node);
         return temp;
     }else if(node->right == NULL){
         //printf("no right child");
         struct tree_node* temp = node->left;
-        free_queue(node->queue);
+        //free_queue(node->queue);
         free(node);
         return temp;
     // If both children exist
@@ -513,7 +523,7 @@ struct tree_node* delete_node(struct tree_node* node, unsigned long id){
         //if(succ->queue->front != NULL){
             //free_queue(succ->queue);
         //}
-        free_queue(succ->queue);
+        //free_queue(succ->queue);
         free(succ);
         return node;
     }

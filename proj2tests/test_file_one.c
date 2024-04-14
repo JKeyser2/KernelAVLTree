@@ -6,6 +6,7 @@
 #include <sys/syscall.h>
 
 
+// Cool
 #define __NR_mailbox_init 548
 #define __NR_mailbox_shutdown 549
 #define __NR_mailbox_create 550
@@ -351,7 +352,7 @@ void mailbox_delete_test_three(){
 }
 
 
-
+// Cool
 void mailbox_delete_test_four(){
     mailbox_init();
     mailbox_create(50);

@@ -19,7 +19,7 @@
 #define __NR_message_count 555
 #define __NR_message_length 556
 
-
+// Cool
 long mailbox_init(void) {
     return syscall(__NR_mailbox_init);
 }
@@ -57,7 +57,7 @@ long mailbox_destroy(unsigned long id) {
 
 
 
-
+// Cool
 int main(int argc, char *argv[]) {
     bool end_loop = false;
     int user_input = -1;
