@@ -107,8 +107,24 @@ long message_length(unsigned long id);
 int main (int argc, char **argv){
     mailbox_init();
     
+    //mailbox_create(50);
+    //mailbox_create(25);
+    //mailbox_create(75);
+    //mailbox_create(65);
+    //mailbox_create(64);
+    //mailbox_create(66);
+    //mailbox_create(80);
+    //mailbox_send(50, "Hello world2", strlen("Hello world2"));
+    //mailbox_send(50, "Hello world3", strlen("Hello world3"));
+    //mailbox_send(50, "Hello world4", strlen("Hello world4"));
+    //mailbox_send(64, "Hello world5", strlen("Hello world5"));
+    //mailbox_send(64, "Hello world6", strlen("Hello world6"));
+    //mailbox_destroy(50);
     
-    mailbox_shutdown();
+    //in_order_traversal(root);
+    
+    //mailbox_shutdown();
+    
 
     mailbox_create(5);
     mailbox_create(5);
@@ -118,7 +134,7 @@ int main (int argc, char **argv){
     
     mailbox_destroy(17);
     mailbox_destroy(18);
-   
+    
     mailbox_send(10, "Hello world", strlen("Hello world"));
     
     mailbox_recv(10, "Message", strlen("Message"));
@@ -149,12 +165,6 @@ int main (int argc, char **argv){
     
     
     mailbox_shutdown();
-    
-    mailbox_init();
-    
-    printf("\n\n");
-    
-    in_order_traversal(root);
     
 }
 
@@ -488,16 +498,62 @@ struct tree_node* delete_node(struct tree_node* node, unsigned long id){
     // If 1 of children is empty
     }
     if(node->left == NULL){
-    	//printf("no left child");
         struct tree_node* temp = node->right;
+    
+    	//printf("woah");
+        //node->id = succ->id;
+        
+        
+        // Free old queue
         //free_queue(node->queue);
+        // Create fresh queue
+        //node->queue = create_queue();
+        // Copy over all messages from node that has taken old node's spot
+        //while(succ->queue->front != NULL){
+            //enqueue(node->queue, succ->queue->front->data);
+            //dequeue(succ->queue);
+        //}
+        
+        // !!!
+        //node->queue = succ->queue;
+        
+        //free_queue(succ->queue);
+        
+        while(node->queue->front != NULL){
+            dequeue(node->queue);
+        }
+        free(node->queue);
+        
         free(node);
         return temp;
     }else if(node->right == NULL){
         //printf("no right child");
         struct tree_node* temp = node->left;
+        
+        //printf("woah");
+        //node->id = temp->id;
+        
+        
+        // Free old queue
         //free_queue(node->queue);
+        // Create fresh queue
+        //node->queue = create_queue();
+        // Copy over all messages from node that has taken old node's spot
+        //while(succ->queue->front != NULL){
+            //enqueue(node->queue, succ->queue->front->data);
+            //dequeue(succ->queue);
+        //}    
+        
+        //free_queue(succ->queue);
+        
+        while(node->queue->front != NULL){
+            dequeue(node->queue);
+        }
+        free(node->queue);
+        
         free(node);
+        
+        
         return temp;
     // If both children exist
     }else{
@@ -519,11 +575,22 @@ struct tree_node* delete_node(struct tree_node* node, unsigned long id){
         }
         //printf("woah");
         node->id = succ->id;
-        node->queue = succ->queue;
-        //if(succ->queue->front != NULL){
-            //free_queue(succ->queue);
-        //}
-        //free_queue(succ->queue);
+        
+        
+        // Free old queue
+        free_queue(node->queue);
+        // Create fresh queue
+        node->queue = create_queue();
+        // Copy over all messages from node that has taken old node's spot
+        while(succ->queue->front != NULL){
+            enqueue(node->queue, succ->queue->front->data);
+            dequeue(succ->queue);
+        }
+        
+        // !!!
+        //node->queue = succ->queue;
+        
+        free_queue(succ->queue);
         free(succ);
         return node;
     }

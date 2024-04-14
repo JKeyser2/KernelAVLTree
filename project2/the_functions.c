@@ -353,6 +353,13 @@ unsigned char* dequeue(struct the_queue* queue){
 
 
 
+
+
+
+
+
+
+
 // Deletes a node from BST 
 struct tree_node* delete_node(struct tree_node* node, unsigned long id){
     // If BST is empty, nothing to delete
@@ -385,16 +392,62 @@ struct tree_node* delete_node(struct tree_node* node, unsigned long id){
     // If 1 of children is empty
     }
     if(node->left == NULL){
-    	//printf("no left child");
         struct tree_node* temp = node->right;
+    
+    	//printf("woah");
+        //node->id = succ->id;
+        
+        
+        // Free old queue
         //free_queue(node->queue);
+        // Create fresh queue
+        //node->queue = create_queue();
+        // Copy over all messages from node that has taken old node's spot
+        //while(succ->queue->front != NULL){
+            //enqueue(node->queue, succ->queue->front->data);
+            //dequeue(succ->queue);
+        //}
+        
+        // !!!
+        //node->queue = succ->queue;
+        
+        //free_queue(succ->queue);
+        
+        while(node->queue->front != NULL){
+            dequeue(node->queue);
+        }
+        kfree(node->queue);
+        
         kfree(node);
         return temp;
     }else if(node->right == NULL){
         //printf("no right child");
         struct tree_node* temp = node->left;
+        
+        //printf("woah");
+        //node->id = temp->id;
+        
+        
+        // Free old queue
         //free_queue(node->queue);
+        // Create fresh queue
+        //node->queue = create_queue();
+        // Copy over all messages from node that has taken old node's spot
+        //while(succ->queue->front != NULL){
+            //enqueue(node->queue, succ->queue->front->data);
+            //dequeue(succ->queue);
+        //}    
+        
+        //free_queue(succ->queue);
+        
+        while(node->queue->front != NULL){
+            dequeue(node->queue);
+        }
+        kfree(node->queue);
+        
         kfree(node);
+        
+        
         return temp;
     // If both children exist
     }else{
@@ -416,11 +469,22 @@ struct tree_node* delete_node(struct tree_node* node, unsigned long id){
         }
         //printf("woah");
         node->id = succ->id;
-        node->queue = succ->queue;
-        //if(succ->queue->front != NULL){
-            //free_queue(succ->queue);
-        //}
-        //free_queue(succ->queue);
+        
+        
+        // Free old queue
+        free_queue(node->queue);
+        // Create fresh queue
+        node->queue = create_queue();
+        // Copy over all messages from node that has taken old node's spot
+        while(succ->queue->front != NULL){
+            enqueue(node->queue, succ->queue->front->data);
+            dequeue(succ->queue);
+        }
+        
+        // !!!
+        //node->queue = succ->queue;
+        
+        free_queue(succ->queue);
         kfree(succ);
         return node;
     }
